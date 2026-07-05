@@ -8,7 +8,7 @@
   const $$ = (s, c = document) => [...c.querySelectorAll(s)];
   const reducedMotion = matchMedia("(prefers-reduced-motion: reduce)").matches;
   const EMAIL = "amritnag2005@gmail.com";
-  const TRACK_ID = "6PRFDCNAMLeSZimkPGrKMG"; // 5-7 — Karan Aujla, Mxrci
+  const YT_ID = "x9RC77Oc-0Q"; // 5-7 (Music Video) — Karan Aujla, Mxrci · Rehaan Records
 
   /* ══════════════ TOAST ══════════════ */
   const toastEl = $("#toast");
@@ -70,10 +70,11 @@
     if (!playerLoaded) {
       playerLoaded = true;
       const iframe = document.createElement("iframe");
-      iframe.src = `https://open.spotify.com/embed/track/${TRACK_ID}?utm_source=generator&theme=0`;
-      iframe.allow = "autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture";
+      iframe.src = `https://www.youtube-nocookie.com/embed/${YT_ID}?autoplay=1&rel=0`;
+      iframe.allow = "accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share";
+      iframe.allowFullscreen = true;
       iframe.loading = "lazy";
-      iframe.title = "5-7 — Karan Aujla on Spotify";
+      iframe.title = "5-7 (Music Video) — Karan Aujla · Mxrci";
       musicPlayer.appendChild(iframe);
     }
     musicPlayer.hidden = false;
