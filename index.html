@@ -31,7 +31,7 @@
 
     <!-- ══════════ COL 1 · TECH STACK ══════════ -->
     <section class="col col--left">
-      <article class="tile tile--stack" data-lift>
+      <article class="tile tile--stack" data-lift data-glow>
         <div class="stack-brand">
           <span class="stack-braces">{ }</span>
           <h2 class="stack-title">TECH<br />STACK</h2>
@@ -75,9 +75,9 @@
     <!-- ══════════ COL 2 · PROFILE + DAILY ══════════ -->
     <section class="col col--mid">
 
-      <article class="tile tile--profile" data-lift>
+      <article class="tile tile--profile" data-lift data-glow>
         <header class="profile-head">
-          <div class="avatar" aria-hidden="true">
+          <button class="avatar" id="avatar" aria-label="hi" title="click me">
             <svg viewBox="0 0 80 80" width="56" height="56">
               <defs>
                 <linearGradient id="av" x1="0" y1="0" x2="1" y2="1">
@@ -93,7 +93,7 @@
               <path d="M35 42 q5 4 10 0" fill="none" stroke="#1c1917" stroke-width="2" stroke-linecap="round"/>
               <path d="M22 66 q4 -14 18 -14 q14 0 18 14 z" fill="#232028"/>
             </svg>
-          </div>
+          </button>
           <div class="profile-id">
             <h1>Amrit Nag</h1>
             <p class="handle">@amr1tnag</p>
@@ -133,14 +133,20 @@
         <div class="daily-main">
           <h2 class="daily-title"><span class="dt-1">DAILY</span> <span class="dt-2">Tool</span> <span class="dt-3">STACK.</span></h2>
           <div class="daily-row">
-            <div class="music" data-lift>
-              <div class="eq" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i></div>
-              <p class="music-label">on repeat</p>
-              <p class="music-song">5-7</p>
-              <p class="music-artist">By: Karan Aujla</p>
-              <span class="music-year">2026</span>
+            <div class="music" id="music-card" data-glow role="button" tabindex="0" aria-label="Play 5-7 by Karan Aujla">
+              <div class="music-face">
+                <div class="eq" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i></div>
+                <p class="music-label">on repeat</p>
+                <p class="music-song">5-7</p>
+                <p class="music-artist">Karan Aujla · Mxrci</p>
+                <span class="music-year">2026</span>
+                <span class="music-play">▶ tap to play</span>
+              </div>
+              <div class="music-player" hidden>
+                <button class="music-close" id="music-close" aria-label="Close player">✕</button>
+              </div>
             </div>
-            <div class="meme" data-lift>
+            <div class="meme" data-lift data-glow>
               <p class="meme-quote">"Tony Stark is the<br />biggest vibe coder ;)"</p>
               <span class="meme-emoji" aria-hidden="true">🦾</span>
               <span class="meme-tag">certified shitpost corner</span>
@@ -291,6 +297,30 @@
       </div>
     </div>
   </div>
+
+  <!-- ══════════ COMMAND PALETTE ══════════ -->
+  <button class="cmdk-pill" id="open-palette" aria-label="Open command palette">
+    <kbd>⌘</kbd><kbd>K</kbd>
+  </button>
+
+  <div class="palette-overlay" id="palette" role="dialog" aria-modal="true" aria-label="Command palette" hidden>
+    <div class="palette">
+      <div class="palette-input-row">
+        <span class="palette-prompt">❯</span>
+        <input type="text" id="palette-input" class="palette-input" placeholder="type a command…" autocomplete="off" spellcheck="false" />
+        <kbd class="palette-esc">esc</kbd>
+      </div>
+      <ul class="palette-list" id="palette-list" role="listbox"></ul>
+      <div class="palette-footer">
+        <span><kbd>↑↓</kbd> navigate</span>
+        <span><kbd>⏎</kbd> run</span>
+        <span><kbd>esc</kbd> close</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- toast -->
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
 
   <script src="js/main.js"></script>
 </body>
