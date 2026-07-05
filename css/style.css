@@ -601,6 +601,7 @@ button { font: inherit; color: inherit; background: none; border: none; cursor: 
 .proj-icon { font-size: 24px; }
 .proj-top a { font-family: var(--mono); font-size: 13px; color: var(--text-faint); transition: color 0.2s; }
 .proj-top a:hover { color: var(--accent); }
+.proj-links { display: flex; gap: 12px; }
 .proj h3 { font-family: var(--mono); font-size: 17px; font-weight: 700; margin-bottom: 8px; }
 .proj h3::before { content: "❯ "; color: var(--accent); }
 .proj p { font-size: 13.5px; color: var(--text-dim); margin-bottom: 14px; }
