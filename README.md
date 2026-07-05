@@ -1,31 +1,25 @@
 # amrit.builds — portfolio
 
-A fast, dark, terminal-flavored engineering portfolio. **Zero dependencies, zero build step** — pure HTML/CSS/JS.
+A single-screen **bento-grid** portfolio. Dark by default, light mode included. **Zero dependencies, zero build step** — pure HTML/CSS/JS.
 
-## ✨ Features
+## ✨ The board
 
-- **Boot sequence** intro (skippable, shows once per session)
-- **Interactive particle constellation** background that reacts to your mouse
-- **⌘K command palette** — navigate, copy email, `sudo hire amrit`
-- **Text-scramble** rotating role in the hero
-- **3D tilt cards** with cursor-tracking glow for projects
-- **Editor-style status bar** — live section, scroll %, clock
-- **Custom cursor** with magnetic buttons (desktop only)
-- **Konami code** (`↑↑↓↓←→←→BA`) → party mode 🎉
-- Console easter egg, animated stats panel, marquee stack strip
-- Respects `prefers-reduced-motion`, responsive down to mobile
+- **Tech stack card** — grouped pill tags (frontend / backend / db & services / currently learning)
+- **Profile card** — avatar, `I build ___.` typewriter line, bio, "available for work" pulse + live clock, light/dark **theme toggle** (persisted)
+- **Links tiles** — GitHub, email, LinkedIn, resume (inline SVG icons, no external assets)
+- **Daily tool stack** — vertical tool rail, animated *on repeat* music widget, certified shitpost corner
+- **PROJECTS 作品 / EXPERIENCE 経験** — big accent tiles that open overlay panels (Esc to close)
+- Floating background shapes, entrance animations, hover lifts, konami code (`↑↑↓↓←→←→BA`) party mode, console easter egg
+- Responsive (three columns → one), respects `prefers-reduced-motion`
 
 ## 🚀 Run it
 
-Any static server works:
-
 ```bash
-npx serve .
-# or
 python3 -m http.server 8000
+# or: npx serve .
 ```
 
-Deploy to **GitHub Pages** (Settings → Pages → deploy from branch), **Vercel**, or **Netlify** — no config needed.
+Deploys as-is to **GitHub Pages**, **Vercel**, or **Netlify** — no config.
 
 ## ✏️ Make it yours
 
@@ -33,18 +27,19 @@ Everything editable lives in `index.html`:
 
 | What | Where |
 |---|---|
-| Name, roles, blurb | `.hero` section (roles list is in `js/main.js` → `roles`) |
-| About text + stats | `#about` (`data-count` attrs drive the count-up numbers) |
-| Projects | `#projects` — duplicate a `<article class="card">` block |
-| Skills | `#stack` (marquee + columns) |
-| Timeline | `#journey` |
-| Email / socials | `#contact` + `EMAIL` const in `js/main.js` + palette links |
-| Colors | `css/style.css` → `:root` variables (`--accent` is the money) |
+| Name / handle / bio / quote | profile card (`.tile--profile`) |
+| `I build ___` words | `js/main.js` → `WORDS` |
+| Tech stack pills | `.tile--stack` |
+| Links | `.tile--links` (drop `resume.pdf` in the repo root for the resume tile) |
+| Song + meme | `.tile--daily` |
+| Projects | `#overlay-projects` — duplicate a `.proj` block |
+| Experience | `#overlay-experience` timeline |
+| Colors | `css/style.css` → `:root` / `[data-theme="light"]` variables |
 
 ## 🗂 Structure
 
 ```
-index.html      # all content
-css/style.css   # design system (CSS variables at the top)
-js/main.js      # boot, particles, palette, tilt, easter eggs
+index.html      # all content (board + overlays)
+css/style.css   # design system, themes, layout
+js/main.js      # theme, clock, typewriter, overlays, easter eggs
 ```
