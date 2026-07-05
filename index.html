@@ -1,0 +1,374 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Amrit Nag — Engineer</title>
+  <meta name="description" content="Amrit Nag — software engineer. I build fast, reliable systems and ship things that feel great to use." />
+  <meta name="theme-color" content="#050507" />
+
+  <!-- Open Graph -->
+  <meta property="og:title" content="Amrit Nag — Engineer" />
+  <meta property="og:description" content="I build fast, reliable systems and ship things that feel great to use." />
+  <meta property="og:type" content="website" />
+  <meta name="twitter:card" content="summary_large_image" />
+
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' rx='20' fill='%23050507'/%3E%3Ctext x='50' y='68' font-size='52' text-anchor='middle' fill='%2300e5a0' font-family='monospace' font-weight='bold'%3E%E2%9D%AF_%3C/text%3E%3C/svg%3E" />
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=JetBrains+Mono:ital,wght@0,400;0,500;0,700;1,400&display=swap" rel="stylesheet" />
+
+  <link rel="stylesheet" href="css/style.css" />
+</head>
+<body>
+
+  <!-- ══════════════════ BOOT SEQUENCE ══════════════════ -->
+  <div id="boot" class="boot" aria-hidden="true">
+    <div class="boot-inner">
+      <pre id="boot-log" class="boot-log"></pre>
+      <div class="boot-bar"><div id="boot-progress" class="boot-progress"></div></div>
+    </div>
+    <button id="boot-skip" class="boot-skip">skip ⏎</button>
+  </div>
+
+  <!-- ══════════════════ BACKGROUND ══════════════════ -->
+  <canvas id="field" class="field" aria-hidden="true"></canvas>
+  <div class="grid-overlay" aria-hidden="true"></div>
+  <div class="noise" aria-hidden="true"></div>
+
+  <!-- custom cursor -->
+  <div class="cursor-dot" aria-hidden="true"></div>
+  <div class="cursor-ring" aria-hidden="true"></div>
+
+  <!-- ══════════════════ NAV ══════════════════ -->
+  <header class="nav" id="nav">
+    <a class="nav-logo" href="#top" data-magnetic>
+      <span class="logo-prompt">❯</span>&nbsp;amrit<span class="logo-dim">.builds</span><span class="logo-caret">_</span>
+    </a>
+    <nav class="nav-links" aria-label="Primary">
+      <a href="#about"><span class="nav-num">01</span> about</a>
+      <a href="#projects"><span class="nav-num">02</span> projects</a>
+      <a href="#stack"><span class="nav-num">03</span> stack</a>
+      <a href="#journey"><span class="nav-num">04</span> journey</a>
+      <a href="#contact"><span class="nav-num">05</span> contact</a>
+    </nav>
+    <button class="nav-cmdk" id="open-palette" data-magnetic aria-label="Open command palette">
+      <kbd>⌘</kbd><kbd>K</kbd>
+    </button>
+  </header>
+
+  <main id="top">
+
+    <!-- ══════════════════ HERO ══════════════════ -->
+    <section class="hero">
+      <p class="hero-eyebrow reveal"><span class="pulse-dot"></span> open to interesting problems</p>
+      <h1 class="hero-name">
+        <span class="hero-line reveal" data-text="AMRIT">AMRIT</span>
+        <span class="hero-line hero-line--accent reveal" data-text="NAG">NAG</span>
+      </h1>
+      <p class="hero-role reveal">
+        <span class="role-prefix">$ whoami&nbsp;&nbsp;→&nbsp;</span><span id="scramble" class="scramble">software engineer</span>
+      </p>
+      <p class="hero-blurb reveal">
+        I design and build software that's fast, reliable, and a little bit fun.
+        Currently obsessed with distributed systems, developer tools, and making
+        the web feel like it runs at 120fps.
+      </p>
+      <div class="hero-cta reveal">
+        <a class="btn btn--primary" href="#projects" data-magnetic>see the work <span class="btn-arrow">↓</span></a>
+        <a class="btn btn--ghost" href="#contact" data-magnetic>get in touch</a>
+        <span class="hero-hint">or press <kbd>⌘K</kbd></span>
+      </div>
+      <a class="scroll-cue" href="#about" aria-label="Scroll to about">
+        <span class="scroll-cue-track"><span class="scroll-cue-thumb"></span></span>
+      </a>
+    </section>
+
+    <!-- ══════════════════ 01 / ABOUT ══════════════════ -->
+    <section class="section" id="about">
+      <h2 class="section-title reveal"><span class="section-num">01.</span> about</h2>
+      <div class="about-grid">
+        <div class="about-copy reveal">
+          <p>
+            Hey — I'm <strong>Amrit</strong>. I'm an engineer who cares equally about
+            <em>what</em> gets built and <em>how it feels</em> to use. My happy place is
+            the layer where systems meet product: making hard things look effortless.
+          </p>
+          <p>
+            I started by breaking things — my first "project" was bricking the family
+            computer and having to figure out how to fix it before anyone noticed.
+            That reverse-engineering instinct never left. Now I channel it into
+            building backends that don't fall over, interfaces that don't make you
+            think, and tooling that makes other engineers faster.
+          </p>
+          <p>
+            When I'm not shipping, I'm reading systems papers, contributing to open
+            source, or over-optimizing something that absolutely did not need
+            optimizing. No regrets.
+          </p>
+        </div>
+        <aside class="about-stats reveal" aria-label="Stats">
+          <div class="stat-panel">
+            <div class="stat-panel-head">
+              <span class="dot dot-r"></span><span class="dot dot-y"></span><span class="dot dot-g"></span>
+              <span class="stat-panel-title">amrit — htop</span>
+            </div>
+            <div class="stat-row"><span class="stat-label">years_writing_code</span><span class="stat-value" data-count="6">0</span></div>
+            <div class="stat-row"><span class="stat-label">projects_shipped</span><span class="stat-value" data-count="24">0</span></div>
+            <div class="stat-row"><span class="stat-label">github_commits_ytd</span><span class="stat-value" data-count="1370">0</span></div>
+            <div class="stat-row"><span class="stat-label">coffee_dependency</span><span class="stat-value stat-crit">CRITICAL</span></div>
+            <div class="stat-meter">
+              <span class="stat-label">curiosity</span>
+              <span class="meter"><span class="meter-fill" style="--w:97%"></span></span>
+              <span class="stat-value">97%</span>
+            </div>
+            <div class="stat-meter">
+              <span class="stat-label">tabs_open</span>
+              <span class="meter"><span class="meter-fill meter-fill--warn" style="--w:100%"></span></span>
+              <span class="stat-value">∞</span>
+            </div>
+          </div>
+        </aside>
+      </div>
+    </section>
+
+    <!-- ══════════════════ 02 / PROJECTS ══════════════════ -->
+    <section class="section" id="projects">
+      <h2 class="section-title reveal"><span class="section-num">02.</span> selected projects</h2>
+      <p class="section-sub reveal">Things I've built and actually shipped. Hover around — the cards are alive.</p>
+
+      <div class="projects-grid">
+
+        <article class="card reveal" data-tilt>
+          <div class="card-glow"></div>
+          <div class="card-top">
+            <span class="card-icon">⚡</span>
+            <div class="card-links">
+              <a href="https://github.com/amr1tnag" aria-label="Source on GitHub" title="Source">&lt;/&gt;</a>
+              <a href="#" aria-label="Live demo" title="Live">↗</a>
+            </div>
+          </div>
+          <h3 class="card-title">pulsequeue</h3>
+          <p class="card-desc">
+            A distributed job queue built from scratch — at-least-once delivery,
+            dead-letter handling, and a live dashboard that streams worker state
+            over WebSockets. Survives node death without dropping a single job.
+          </p>
+          <ul class="card-tags">
+            <li>Go</li><li>Redis</li><li>WebSockets</li><li>Docker</li>
+          </ul>
+        </article>
+
+        <article class="card reveal" data-tilt>
+          <div class="card-glow"></div>
+          <div class="card-top">
+            <span class="card-icon">📝</span>
+            <div class="card-links">
+              <a href="https://github.com/amr1tnag" aria-label="Source on GitHub" title="Source">&lt;/&gt;</a>
+              <a href="#" aria-label="Live demo" title="Live">↗</a>
+            </div>
+          </div>
+          <h3 class="card-title">syncpad</h3>
+          <p class="card-desc">
+            Real-time collaborative editor with CRDT-based conflict resolution.
+            Multiple cursors, offline-first editing, and sub-50ms sync across
+            continents. Google Docs energy, weekend-project footprint.
+          </p>
+          <ul class="card-tags">
+            <li>TypeScript</li><li>CRDTs</li><li>React</li><li>WebRTC</li>
+          </ul>
+        </article>
+
+        <article class="card reveal" data-tilt>
+          <div class="card-glow"></div>
+          <div class="card-top">
+            <span class="card-icon">🔬</span>
+            <div class="card-links">
+              <a href="https://github.com/amr1tnag" aria-label="Source on GitHub" title="Source">&lt;/&gt;</a>
+              <a href="#" aria-label="Live demo" title="Live">↗</a>
+            </div>
+          </div>
+          <h3 class="card-title">tinylang</h3>
+          <p class="card-desc">
+            A small programming language with a hand-written lexer, Pratt parser,
+            and bytecode VM. Closures, garbage collection, and a REPL — built to
+            deeply understand how languages actually work under the hood.
+          </p>
+          <ul class="card-tags">
+            <li>Rust</li><li>Compilers</li><li>Bytecode VM</li>
+          </ul>
+        </article>
+
+        <article class="card reveal" data-tilt>
+          <div class="card-glow"></div>
+          <div class="card-top">
+            <span class="card-icon">📊</span>
+            <div class="card-links">
+              <a href="https://github.com/amr1tnag" aria-label="Source on GitHub" title="Source">&lt;/&gt;</a>
+              <a href="#" aria-label="Live demo" title="Live">↗</a>
+            </div>
+          </div>
+          <h3 class="card-title">peekaboo</h3>
+          <p class="card-desc">
+            Privacy-first, self-hosted web analytics in a single &lt;4kb script.
+            No cookies, no fingerprinting — just clean dashboards, real-time
+            visitors, and a one-command deploy. Because your data is yours.
+          </p>
+          <ul class="card-tags">
+            <li>Node.js</li><li>SQLite</li><li>SvelteKit</li>
+          </ul>
+        </article>
+
+      </div>
+
+      <p class="projects-more reveal">
+        more experiments live on <a class="link-inline" href="https://github.com/amr1tnag">github ↗</a>
+      </p>
+    </section>
+
+    <!-- ══════════════════ 03 / STACK ══════════════════ -->
+    <section class="section" id="stack">
+      <h2 class="section-title reveal"><span class="section-num">03.</span> the stack</h2>
+      <p class="section-sub reveal">Tools are a means, not an identity — but these are the ones I reach for.</p>
+
+      <div class="marquee reveal" aria-hidden="true">
+        <div class="marquee-track">
+          <span>TypeScript</span><span>◆</span><span>Go</span><span>◆</span><span>Rust</span><span>◆</span><span>Python</span><span>◆</span><span>React</span><span>◆</span><span>Node.js</span><span>◆</span><span>PostgreSQL</span><span>◆</span><span>Redis</span><span>◆</span><span>Docker</span><span>◆</span><span>Kubernetes</span><span>◆</span><span>AWS</span><span>◆</span><span>Linux</span><span>◆</span>
+          <span>TypeScript</span><span>◆</span><span>Go</span><span>◆</span><span>Rust</span><span>◆</span><span>Python</span><span>◆</span><span>React</span><span>◆</span><span>Node.js</span><span>◆</span><span>PostgreSQL</span><span>◆</span><span>Redis</span><span>◆</span><span>Docker</span><span>◆</span><span>Kubernetes</span><span>◆</span><span>AWS</span><span>◆</span><span>Linux</span><span>◆</span>
+        </div>
+      </div>
+
+      <div class="stack-grid">
+        <div class="stack-col reveal">
+          <h3 class="stack-head">// languages</h3>
+          <ul class="stack-list">
+            <li>TypeScript / JavaScript</li>
+            <li>Go</li>
+            <li>Rust</li>
+            <li>Python</li>
+            <li>SQL</li>
+          </ul>
+        </div>
+        <div class="stack-col reveal">
+          <h3 class="stack-head">// backend &amp; infra</h3>
+          <ul class="stack-list">
+            <li>Node.js · Express · Fastify</li>
+            <li>PostgreSQL · Redis · SQLite</li>
+            <li>Docker · Kubernetes</li>
+            <li>AWS · GCP</li>
+            <li>gRPC · WebSockets</li>
+          </ul>
+        </div>
+        <div class="stack-col reveal">
+          <h3 class="stack-head">// frontend</h3>
+          <ul class="stack-list">
+            <li>React · Next.js</li>
+            <li>Svelte</li>
+            <li>Canvas / WebGL</li>
+            <li>Tailwind · vanilla CSS</li>
+            <li>Accessibility-first</li>
+          </ul>
+        </div>
+        <div class="stack-col reveal">
+          <h3 class="stack-head">// daily drivers</h3>
+          <ul class="stack-list">
+            <li>Neovim (btw)</li>
+            <li>tmux + a cursed dotfiles repo</li>
+            <li>Git — rebase gang</li>
+            <li>Linear · Figma</li>
+            <li>Claude Code</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <!-- ══════════════════ 04 / JOURNEY ══════════════════ -->
+    <section class="section" id="journey">
+      <h2 class="section-title reveal"><span class="section-num">04.</span> journey</h2>
+      <div class="timeline">
+        <div class="tl-item reveal">
+          <div class="tl-dot"></div>
+          <span class="tl-date">2025 — now</span>
+          <h3 class="tl-title">Building &amp; shipping independently</h3>
+          <p class="tl-desc">Full-stack product work, open-source tooling, and freelance systems engineering. Shipping fast, measuring everything, breaking nothing (mostly).</p>
+        </div>
+        <div class="tl-item reveal">
+          <div class="tl-dot"></div>
+          <span class="tl-date">2023 — 2025</span>
+          <h3 class="tl-title">Deep-end engineering</h3>
+          <p class="tl-desc">Went from "it works on my machine" to distributed systems, CI/CD pipelines, and production on-call. Learned that boring technology is a superpower.</p>
+        </div>
+        <div class="tl-item reveal">
+          <div class="tl-dot"></div>
+          <span class="tl-date">2021 — 2023</span>
+          <h3 class="tl-title">The build-everything era</h3>
+          <p class="tl-desc">Discord bots, game mods, scrapers, a dozen half-finished side projects. Every abandoned repo taught me something the finished ones couldn't.</p>
+        </div>
+        <div class="tl-item reveal">
+          <div class="tl-dot"></div>
+          <span class="tl-date">2020</span>
+          <h3 class="tl-title">hello, world</h3>
+          <p class="tl-desc">Wrote my first line of code. Immediately got an error. Been debugging ever since.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- ══════════════════ 05 / CONTACT ══════════════════ -->
+    <section class="section section--contact" id="contact">
+      <h2 class="section-title reveal"><span class="section-num">05.</span> contact</h2>
+      <p class="contact-lead reveal">
+        Have a hard problem, a wild idea, or a team that ships?<br />
+        My inbox is open — let's build something.
+      </p>
+      <button class="contact-email reveal" id="copy-email" data-magnetic title="Click to copy">
+        <span class="contact-email-text">amritnag2005@gmail.com</span>
+        <span class="contact-email-hint" id="copy-hint">click to copy</span>
+      </button>
+      <div class="socials reveal">
+        <a href="https://github.com/amr1tnag" data-magnetic>github ↗</a>
+        <a href="https://www.linkedin.com/" data-magnetic>linkedin ↗</a>
+        <a href="https://x.com/" data-magnetic>x / twitter ↗</a>
+      </div>
+    </section>
+
+    <footer class="footer">
+      <p>designed &amp; built by amrit nag · no frameworks were harmed</p>
+      <p class="footer-hint">psst — try the konami code <span class="footer-code">↑↑↓↓←→←→BA</span></p>
+    </footer>
+  </main>
+
+  <!-- ══════════════════ STATUS BAR ══════════════════ -->
+  <div class="statusbar" aria-hidden="true">
+    <div class="statusbar-left">
+      <span class="sb-item sb-available"><span class="pulse-dot"></span> AVAILABLE FOR WORK</span>
+      <span class="sb-item sb-branch"> main*</span>
+    </div>
+    <div class="statusbar-right">
+      <span class="sb-item" id="sb-section">~/hero</span>
+      <span class="sb-item" id="sb-scroll">0%</span>
+      <span class="sb-item" id="sb-clock">--:--</span>
+      <span class="sb-item sb-cmdk">⌘K</span>
+    </div>
+  </div>
+
+  <!-- ══════════════════ COMMAND PALETTE ══════════════════ -->
+  <div class="palette-overlay" id="palette" role="dialog" aria-modal="true" aria-label="Command palette" hidden>
+    <div class="palette">
+      <div class="palette-input-row">
+        <span class="palette-prompt">❯</span>
+        <input type="text" id="palette-input" class="palette-input" placeholder="type a command or search…" autocomplete="off" spellcheck="false" />
+        <kbd class="palette-esc">esc</kbd>
+      </div>
+      <ul class="palette-list" id="palette-list" role="listbox"></ul>
+      <div class="palette-footer">
+        <span><kbd>↑↓</kbd> navigate</span>
+        <span><kbd>⏎</kbd> run</span>
+        <span><kbd>esc</kbd> close</span>
+      </div>
+    </div>
+  </div>
+
+  <script src="js/main.js"></script>
+</body>
+</html>
