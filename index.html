@@ -298,6 +298,29 @@
     </div>
   </div>
 
+  <!-- ══════════ TERMINAL ══════════ -->
+  <button class="cmdk-pill term-pill" id="open-term" aria-label="Open terminal">
+    <kbd>❯_</kbd>
+  </button>
+
+  <div class="term-overlay" id="terminal" role="dialog" aria-modal="true" aria-label="Terminal" hidden>
+    <div class="term">
+      <div class="term-head">
+        <span class="dot dot-r"></span><span class="dot dot-y"></span><span class="dot dot-g"></span>
+        <span class="term-title">visitor@amrit.builds — bash</span>
+        <button class="term-close" id="term-close" aria-label="Close terminal">✕</button>
+      </div>
+      <div class="term-body" id="term-body"></div>
+      <div class="term-line">
+        <span class="term-prompt">visitor@amrit.builds:~$</span>
+        <input type="text" id="term-input" class="term-input" autocomplete="off" spellcheck="false" autocapitalize="off" aria-label="Terminal input" />
+      </div>
+    </div>
+  </div>
+
+  <!-- chaos undo -->
+  <button class="chaos-reset" id="chaos-reset" hidden>⌘Z&nbsp; undo the disaster</button>
+
   <!-- ══════════ COMMAND PALETTE ══════════ -->
   <button class="cmdk-pill" id="open-palette" aria-label="Open command palette">
     <kbd>⌘</kbd><kbd>K</kbd>

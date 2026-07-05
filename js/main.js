@@ -188,8 +188,10 @@
     { icon: "🐙", label: "open github", hint: "link", run: () => open("https://github.com/amr1tnag", "_blank") },
     { icon: "💼", label: "open linkedin", hint: "link", run: () => open("https://www.linkedin.com/in/amrit-nag-5a8724326/", "_blank") },
     { icon: "📄", label: "open resume", hint: "link", run: () => open("resume.pdf", "_blank") },
+    { icon: "💻", label: "open terminal", hint: "shell", run: () => openTerm() },
     { icon: "🎉", label: "toggle party mode", hint: "fun", run: toggleParty },
     { icon: "🔐", label: "sudo hire amrit", hint: "fun", run: () => { copyEmail(); if (!document.body.classList.contains("party")) toggleParty(); setTimeout(() => document.body.classList.remove("party"), 5000); } },
+    { icon: "☢", label: "destroy this site", hint: "chaos", run: () => startChaos() },
   ];
 
   const renderPalette = () => {
@@ -233,6 +235,7 @@
     }
     if (e.key === "Escape") {
       if (!palette.hidden) closePalette();
+      else if (!termOverlay.hidden) closeTerm();
       else closeOverlays();
       return;
     }
@@ -240,6 +243,238 @@
     if (e.key === "ArrowDown") { e.preventDefault(); activeIdx = (activeIdx + 1) % filtered.length; renderPalette(); }
     else if (e.key === "ArrowUp") { e.preventDefault(); activeIdx = (activeIdx - 1 + filtered.length) % filtered.length; renderPalette(); }
     else if (e.key === "Enter") { closePalette(); filtered[activeIdx]?.run(); }
+  });
+
+  /* ══════════════ CHAOS MODE ☢ (gravity + drag physics) ══════════════ */
+  const CHAOS_SEL = ".tile--stack, .tile--profile, .tile--daily, .tile--big, .link-sq, .links-title";
+  const resetBtn = $("#chaos-reset");
+  let chaos = false, bodies = [], chaosRAF = null;
+
+  const startChaos = () => {
+    if (chaos) return;
+    if (reducedMotion) { toast("🧘 reduced-motion is on — no chaos for you"); return; }
+    chaos = true;
+    closeOverlays();
+    closeTerm();
+    bodies = $$(CHAOS_SEL).map((el) => {
+      const r = el.getBoundingClientRect();
+      return {
+        el, ox: r.left, oy: r.top, x: r.left, y: r.top, w: r.width, h: r.height,
+        vx: (Math.random() - 0.5) * 10, vy: -(Math.random() * 8 + 3),
+        a: 0, va: (Math.random() - 0.5) * 0.09, grabbed: false,
+      };
+    });
+    for (const b of bodies) {
+      const s = b.el.style;
+      s.position = "fixed"; s.left = b.x + "px"; s.top = b.y + "px";
+      s.width = b.w + "px"; s.height = b.h + "px";
+      s.margin = "0"; s.zIndex = 900; s.transition = "none"; s.transform = "none";
+      s.cursor = "grab"; s.touchAction = "none";
+    }
+    document.body.classList.add("chaos");
+    resetBtn.hidden = false;
+    toast("☢ oh no. try throwing the wreckage around", 3500);
+
+    const G = 0.55, BOUNCE = 0.45, AIR = 0.995;
+    const step = () => {
+      const H = innerHeight, W = innerWidth;
+      for (const b of bodies) {
+        if (!b.grabbed) {
+          b.vy += G; b.vx *= AIR;
+          b.x += b.vx; b.y += b.vy; b.a += b.va;
+          if (b.y + b.h > H) {
+            b.y = H - b.h; b.vy *= -BOUNCE; b.vx *= 0.92; b.va *= 0.7;
+            if (Math.abs(b.vy) < 1.4) b.vy = 0;
+          }
+          if (b.x < 0) { b.x = 0; b.vx *= -BOUNCE; }
+          if (b.x + b.w > W) { b.x = W - b.w; b.vx *= -BOUNCE; }
+        }
+        b.el.style.left = b.x + "px";
+        b.el.style.top = b.y + "px";
+        b.el.style.transform = `rotate(${b.a}rad)`;
+      }
+      chaosRAF = requestAnimationFrame(step);
+    };
+    chaosRAF = requestAnimationFrame(step);
+  };
+
+  const endChaos = () => {
+    if (!chaos) return;
+    cancelAnimationFrame(chaosRAF);
+    resetBtn.hidden = true;
+    for (const b of bodies) {
+      const s = b.el.style;
+      s.transition = "left 0.6s cubic-bezier(0.16,1,0.3,1), top 0.6s cubic-bezier(0.16,1,0.3,1), transform 0.6s cubic-bezier(0.16,1,0.3,1)";
+      s.left = b.ox + "px"; s.top = b.oy + "px"; s.transform = "rotate(0rad)";
+    }
+    setTimeout(() => {
+      for (const b of bodies) b.el.removeAttribute("style");
+      bodies = [];
+      chaos = false;
+      document.body.classList.remove("chaos");
+      toast("🧹 disaster undone. never speak of this again");
+    }, 620);
+  };
+  resetBtn.addEventListener("click", endChaos);
+
+  // drag & throw
+  let grabbedBody = null, gdx = 0, gdy = 0, lastPX = 0, lastPY = 0, dragDist = 0;
+  addEventListener("pointerdown", (e) => {
+    if (!chaos) return;
+    const hit = [...bodies].reverse().find((b) =>
+      e.clientX >= b.x && e.clientX <= b.x + b.w && e.clientY >= b.y && e.clientY <= b.y + b.h);
+    if (!hit) return;
+    grabbedBody = hit;
+    hit.grabbed = true;
+    hit.vx = hit.vy = 0;
+    gdx = e.clientX - hit.x; gdy = e.clientY - hit.y;
+    lastPX = e.clientX; lastPY = e.clientY; dragDist = 0;
+    hit.el.style.cursor = "grabbing";
+  }, true);
+  addEventListener("pointermove", (e) => {
+    if (!grabbedBody) return;
+    dragDist += Math.abs(e.clientX - lastPX) + Math.abs(e.clientY - lastPY);
+    grabbedBody.vx = (e.clientX - lastPX) * 0.9;
+    grabbedBody.vy = (e.clientY - lastPY) * 0.9;
+    lastPX = e.clientX; lastPY = e.clientY;
+    grabbedBody.x = e.clientX - gdx;
+    grabbedBody.y = e.clientY - gdy;
+  });
+  addEventListener("pointerup", () => {
+    if (!grabbedBody) return;
+    grabbedBody.el.style.cursor = "grab";
+    grabbedBody.grabbed = false;
+    grabbedBody = null;
+  });
+  // swallow clicks after a real drag so cards don't open mid-throw
+  addEventListener("click", (e) => {
+    if (chaos && dragDist > 8) { e.stopPropagation(); e.preventDefault(); dragDist = 0; }
+  }, true);
+
+  /* ══════════════ TERMINAL ❯_ ══════════════ */
+  const termOverlay = $("#terminal");
+  const termBody = $("#term-body");
+  const termInput = $("#term-input");
+  const history = [];
+  let histIdx = -1;
+
+  const tPrint = (html, cls = "") => {
+    const div = document.createElement("div");
+    if (cls) div.className = cls;
+    div.innerHTML = html;
+    termBody.appendChild(div);
+    termBody.scrollTop = termBody.scrollHeight;
+  };
+
+  const openTerm = () => {
+    termOverlay.hidden = false;
+    if (!termBody.childElementCount) {
+      tPrint(`<span class="t-dim">amritOS 2.0 LTS — guest shell</span>`);
+      tPrint(`type <span class="t-ok">help</span> to see what this thing can do.\n`);
+    }
+    termInput.focus();
+  };
+  const closeTerm = () => { termOverlay.hidden = true; };
+
+  const PROJECT_LIST = [
+    ["venn", "the main quest — product in alpha (Next.js + Supabase + Expo)", "https://github.com/amr1tnag/venn-alpha"],
+    ["furrlet", "dog-walking marketplace (Next.js + Prisma + Flutter)", "https://github.com/amr1tnag/furrlet"],
+    ["jarvis", "Claude-powered voice assistant in Python", "https://github.com/amr1tnag/jarvis-my-personal-assistant"],
+    ["the-lockedin-timer", "site-blocking focus extension", "https://github.com/amr1tnag/the-lockedin-timer"],
+    ["smart-campus-navigation", "campus nav system for DY Patil", "https://github.com/amr1tnag/smart-campus-navigation"],
+    ["kinesisrunclub", "run club site + admin dashboard", "https://github.com/amr1tnag/kinesisrunclub"],
+  ];
+
+  const NEOFETCH = `<span class="t-ok">   ⢀⣴⣶⣦⡀      </span><span class="t-cmd" style="font-weight:700">amrit</span>@<span class="t-ok">builds</span>
+<span class="t-ok">  ⣼⣿⠋⠙⣿⣧     </span>─────────────────
+<span class="t-ok">  ⣿⣿  ⣿⣿     </span><span class="t-dim">OS:</span>       amritOS 2.0 LTS
+<span class="t-ok">  ⢿⣿⣤⣤⣿⡿     </span><span class="t-dim">Host:</span>     Mumbai, India 🇮🇳
+<span class="t-ok">   ⠈⠛⠛⠁      </span><span class="t-dim">Kernel:</span>   CS-fundamentals v6.x
+<span class="t-ok">            </span><span class="t-dim">Uptime:</span>   shipping since 2020
+<span class="t-ok">            </span><span class="t-dim">Shell:</span>    bash (with vibes)
+<span class="t-ok">            </span><span class="t-dim">Editor:</span>   Neovim (btw)
+<span class="t-ok">            </span><span class="t-dim">Memory:</span>   97% music, 3% semicolons`;
+
+  const COMMANDS_TERM = {
+    help: () => tPrint(
+`<span class="t-ok">available commands</span>
+  whoami           who is this guy
+  ls projects      list the goods
+  open &lt;project&gt;   open a project on github
+  stack            tech stack
+  links            socials
+  play             play 5-7 · karan aujla
+  neofetch         system info, obviously
+  hire             copy my email (do it)
+  theme            toggle light/dark
+  party            you'll see
+  clear            clean up
+  exit             close terminal
+<span class="t-dim">  hint: real ones try 'sudo rm -rf /'</span>`),
+    whoami: () => tPrint(`amrit nag — developer from india. builds fast software, strict types,\nand side projects that escape containment. currently building <span class="t-ok">venn</span>.`),
+    ls: () => COMMANDS_TERM["ls projects"](),
+    "ls projects": () => tPrint(PROJECT_LIST.map(([n, d]) =>
+      `<span class="t-ok">${n.padEnd(26)}</span><span class="t-dim">${d}</span>`).join("\n")),
+    stack: () => tPrint(
+`<span class="t-dim">frontend:</span>  react · nextjs · tailwind · scss
+<span class="t-dim">backend:</span>   node · express · bun · fastapi · go
+<span class="t-dim">db/infra:</span>  postgres · mongo · redis · supabase · docker
+<span class="t-dim">learning:</span>  rust · kubernetes · system design`),
+    links: () => tPrint(
+`<a class="t-link" href="https://github.com/amr1tnag" target="_blank" rel="noopener">github.com/amr1tnag</a>
+<a class="t-link" href="https://www.linkedin.com/in/amrit-nag-5a8724326/" target="_blank" rel="noopener">linkedin.com/in/amrit-nag</a>
+<span class="t-dim">mail:</span> amritnag2005@gmail.com`),
+    play: () => { closeTerm(); openPlayer(); toast("🎧 5-7 · karan aujla"); },
+    neofetch: () => tPrint(NEOFETCH),
+    hire: () => { copyEmail(); tPrint(`<span class="t-ok">✓</span> email copied to clipboard. smart move.`); },
+    "sudo hire amrit": () => COMMANDS_TERM.hire(),
+    theme: () => { toggleTheme(); tPrint(`theme → <span class="t-ok">${root.dataset.theme}</span>`); },
+    party: () => { toggleParty(); },
+    clear: () => { termBody.innerHTML = ""; },
+    exit: () => closeTerm(),
+    "rm -rf /": () => tPrint(`<span class="t-err">rm: permission denied.</span> <span class="t-dim">(try sudo)</span>`),
+    "sudo rm -rf /": async () => {
+      const doom = ["deleting /projects ...", "deleting /skills ...", "deleting /self-esteem ...", "wait. no. NO—"];
+      for (const line of doom) {
+        tPrint(`<span class="t-warn">${line}</span>`);
+        await new Promise((r) => setTimeout(r, 420));
+      }
+      startChaos();
+    },
+    konami: () => tPrint(`<span class="t-dim">↑↑↓↓←→←→BA — but you didn't hear it from me</span>`),
+  };
+
+  const runTerm = (raw) => {
+    const cmd = raw.trim();
+    if (!cmd) return;
+    tPrint(cmd.replace(/</g, "&lt;"), "t-cmd");
+    history.unshift(cmd);
+    histIdx = -1;
+    const lower = cmd.toLowerCase();
+    if (COMMANDS_TERM[lower]) return void COMMANDS_TERM[lower]();
+    if (lower.startsWith("open ")) {
+      const name = lower.slice(5).trim();
+      const p = PROJECT_LIST.find(([n]) => n.startsWith(name));
+      if (p) { open(p[2], "_blank"); return void tPrint(`opening <span class="t-ok">${p[0]}</span> ↗`); }
+      return void tPrint(`<span class="t-err">no project named "${name.replace(/</g, "&lt;")}"</span>`);
+    }
+    if (lower.startsWith("cat ")) return void tPrint(`<span class="t-dim">it's a portfolio, not a filesystem. try 'ls projects'</span>`);
+    if (lower.startsWith("sudo")) return void tPrint(`<span class="t-err">visitor is not in the sudoers file. this incident will be reported.</span>`);
+    tPrint(`<span class="t-err">command not found: ${lower.split(" ")[0].replace(/</g, "&lt;")}</span> <span class="t-dim">— try 'help'</span>`);
+  };
+
+  $("#open-term").addEventListener("click", openTerm);
+  $("#term-close").addEventListener("click", closeTerm);
+  termOverlay.addEventListener("click", (e) => {
+    if (e.target === termOverlay) closeTerm();
+    else termInput.focus();
+  });
+  termInput.addEventListener("keydown", (e) => {
+    if (e.key === "Enter") { runTerm(termInput.value); termInput.value = ""; }
+    else if (e.key === "ArrowUp") { e.preventDefault(); if (histIdx < history.length - 1) termInput.value = history[++histIdx]; }
+    else if (e.key === "ArrowDown") { e.preventDefault(); termInput.value = histIdx > 0 ? history[--histIdx] : (histIdx = -1, ""); }
+    else if (e.key === "Escape") { closeTerm(); return; }
+    e.stopPropagation();
   });
 
   /* ══════════════ KONAMI → PARTY 🎮 ══════════════ */
