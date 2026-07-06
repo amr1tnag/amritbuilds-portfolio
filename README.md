@@ -9,7 +9,11 @@ A single-screen **bento-grid** portfolio. Dark by default, light mode included. 
 - **Links tiles** — GitHub, email, LinkedIn, resume (inline SVG icons, no external assets)
 - **Daily tool stack** — vertical tool rail, animated *on repeat* music widget, certified shitpost corner
 - **PROJECTS 作品 / EXPERIENCE 経験** — big accent tiles that open overlay panels (Esc to close)
-- Floating background shapes, entrance animations, hover lifts, konami code (`↑↑↓↓←→←→BA`) party mode, console easter egg
+- **Working terminal** (`❯_` pill) — `help`, `whoami`, `ls projects`, `neofetch`, `hire`… and `sudo rm -rf /` triggers **chaos mode**: every tile falls with real gravity physics, can be grabbed and thrown, undo button restores the board
+- **⌘K command palette** — navigate, play the song, copy email, `sudo hire amrit`, destroy the site
+- **Tap-to-play music card** — embeds the official *5-7* (Karan Aujla · Mxrci) video
+- Terminal-styled **404 page**, OG social preview image, JSON-LD schema
+- Floating background shapes, cursor glow, toasts, avatar easter egg, konami code (`↑↑↓↓←→←→BA`) party mode, console easter egg
 - Responsive (three columns → one), respects `prefers-reduced-motion`
 
 ## 🚀 Run it

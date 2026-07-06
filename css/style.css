@@ -737,7 +737,10 @@ button { font: inherit; color: inherit; background: none; border: none; cursor: 
   font-size: 12px;
   color: var(--text-dim);
 }
-@media (hover: none), (pointer: coarse) { .cmdk-pill { display: none; } }
+@media (hover: none), (pointer: coarse) {
+  .cmdk-pill { display: none; }
+  .cmdk-pill.term-pill { display: flex; right: 20px; }
+}
 
 .palette-overlay {
   position: fixed;
