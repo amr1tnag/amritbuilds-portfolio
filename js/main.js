@@ -377,8 +377,8 @@
   const closeTerm = () => { termOverlay.hidden = true; };
 
   const PROJECT_LIST = [
-    ["venn", "the main quest — product in alpha (Next.js + Supabase + Expo)", "https://github.com/amr1tnag/venn-alpha"],
-    ["furrlet", "dog-walking marketplace (Next.js + Prisma + Flutter)", "https://github.com/amr1tnag/furrlet"],
+    ["venn", "flatmate-matching app for india (Expo + Supabase) — founder", "https://github.com/amr1tnag/venn-alpha"],
+    ["furrlet", "dog-walking marketplace w/ Razorpay Route (sunset)", "https://github.com/amr1tnag/furrlet"],
     ["jarvis", "Claude-powered voice assistant in Python", "https://github.com/amr1tnag/jarvis-my-personal-assistant"],
     ["the-lockedin-timer", "site-blocking focus extension", "https://github.com/amr1tnag/the-lockedin-timer"],
     ["smart-campus-navigation", "campus nav system for DY Patil", "https://github.com/amr1tnag/smart-campus-navigation"],
@@ -411,7 +411,7 @@
   clear            clean up
   exit             close terminal
 <span class="t-dim">  hint: real ones try 'sudo rm -rf /'</span>`),
-    whoami: () => tPrint(`amrit nag — developer from india. builds fast software, strict types,\nand side projects that escape containment. currently building <span class="t-ok">venn</span>.`),
+    whoami: () => tPrint(`amrit nag — developer from navi mumbai. builds fast software, strict types,\nand side projects that escape containment. currently founding <span class="t-ok">venn</span> —\na flatmate-matching app for the indian rental market.`),
     ls: () => COMMANDS_TERM["ls projects"](),
     "ls projects": () => tPrint(PROJECT_LIST.map(([n, d]) =>
       `<span class="t-ok">${n.padEnd(26)}</span><span class="t-dim">${d}</span>`).join("\n")),
